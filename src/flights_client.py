@@ -122,13 +122,21 @@ class GoogleFlightsClient:
         b64_tfs = params.get("tfs", "")
         search_url = f"https://www.google.com/travel/flights?tfs={b64_tfs}&hl={language}&curr={currency.upper()}"
 
+        def _create_client(proxy_url: str | None) -> Client:
+            for imp in ["chrome_146", "chrome_145", "chrome_131", "chrome_126", "chrome"]:
+                try:
+                    return Client(
+                        impersonate=imp,
+                        verify=False,
+                        proxy=proxy_url,
+                        cookie_store=True,
+                    )
+                except Exception:
+                    continue
+            return Client(verify=False, proxy=proxy_url, cookie_store=True)
+
         def _do_fetch(proxy_url: str | None) -> str:
-            client = Client(
-                impersonate="chrome_126",
-                verify=False,
-                proxy=proxy_url,
-                cookie_store=True,
-            )
+            client = _create_client(proxy_url)
             res = client.get(
                 "https://www.google.com/travel/flights",
                 params=params,
