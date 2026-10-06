@@ -143,7 +143,8 @@ class GoogleFlightsClient:
 
         for attempt in range(4):
             self.stats["searches"] += 1
-            proxy_url = await self.proxy_factory(f"{session_id}_{attempt}") if self.proxy_factory else None
+            clean_sess = re.sub(r"[^a-zA-Z0-9_]", "_", f"{session_id}_{attempt}")
+            proxy_url = await self.proxy_factory(clean_sess) if self.proxy_factory else None
             try:
                 html = await loop.run_in_executor(None, _do_fetch, proxy_url)
                 if "Before you continue to Google" in html or "consent.google.com" in html:

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+import re
 from datetime import date, datetime, timedelta, timezone
 from typing import Any
 
@@ -148,7 +149,8 @@ async def main() -> None:
         proxy_cfg = await Actor.create_proxy_configuration(actor_proxy_input=inp.get("proxyConfiguration"))
 
         async def proxy_factory(session: str) -> str | None:
-            return await proxy_cfg.new_url(session_id=session) if proxy_cfg else None
+            safe_session = re.sub(r"[^a-zA-Z0-9_]", "_", session)
+            return await proxy_cfg.new_url(session_id=safe_session) if proxy_cfg else None
 
         client = GoogleFlightsClient(proxy_factory if proxy_cfg else None, log=Actor.log)
         runner = Runner(inp, client)
