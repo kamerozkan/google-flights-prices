@@ -22,12 +22,11 @@ class Runner:
         self.sem = asyncio.Semaphore(int(inp.get("maxConcurrency") or 5))
         self.expand = inp.get("expandItineraries", True)
 
-    async def push_item(self, item: dict[str, Any], event_name: str = "flight-search") -> None:
+    async def charge_search(self) -> None:
         if self.stop:
             return
-
         try:
-            await Actor.charge(event_name=event_name)
+            await Actor.charge(event_name="flight-search")
         except Exception as err:
             err_msg = str(err).lower()
             if "budget" in err_msg or "limit" in err_msg or "charge" in err_msg:
@@ -36,6 +35,9 @@ class Runner:
                 raise ChargeLimitReached() from err
             Actor.log.debug(f"Non-fatal charge notice: {err}")
 
+    async def push_item(self, item: dict[str, Any]) -> None:
+        if self.stop:
+            return
         item["scrapedAt"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
         await Actor.push_data(item)
         self.pushed += 1
@@ -76,9 +78,12 @@ class Runner:
                 self.failed.append({"route": label, "error": str(err)[:300]})
                 return
 
+        # Charge per completed route search
+        await self.charge_search()
+
         itineraries = res.pop("itineraries", [])
         total_found = res["totalFlights"]
-        Actor.log.info(f"{label}: {total_found} flights, lowest: {res['lowestPrice']}")
+        Actor.log.info(f"{label}: {total_found} flights found, lowest price: {res.get('lowestPrice')} {currency}")
 
         if self.expand and itineraries:
             for flight in itineraries:
@@ -88,11 +93,11 @@ class Runner:
                     **res,
                     **flight,
                 }
-                await self.push_item(row, event_name="flight-search")
+                await self.push_item(row)
         else:
-            # Emit route summary with top 3 itineraries preview
             res["topItineraries"] = itineraries[:5]
-            await self.push_item(res, event_name="flight-search")
+            res["itineraries"] = itineraries
+            await self.push_item(res)
 
 
 async def main() -> None:
@@ -101,7 +106,7 @@ async def main() -> None:
         today = datetime.now(timezone.utc).date()
 
         # Build list of route search requests
-        route_tasks = []
+        route_tasks: list[tuple[str, str, str, str | None]] = []
 
         # 1. Structured 'routes' array input
         raw_routes = inp.get("routes") or []
@@ -131,10 +136,9 @@ async def main() -> None:
                 route_tasks.append((f_top, t_top, str(dep), str(ret) if ret else None))
 
         if not route_tasks:
-            await Actor.fail(
-                status_message="Please provide at least one route (e.g. fromAirport: 'JFK', toAirport: 'LHR', departureDate: 'today+14')."
-            )
-            return
+            # Prefill JFK -> LHR default for demo
+            first_dep = today + timedelta(days=14)
+            route_tasks.append(("JFK", "LHR", str(first_dep), None))
 
         adults = max(1, min(int(inp.get("adults") or 1), 9))
         seat = (inp.get("seatClass") or "economy").lower()
@@ -150,7 +154,7 @@ async def main() -> None:
         runner = Runner(inp, client)
 
         Actor.log.info(
-            f"Starting Google Flights Scraper: {len(route_tasks)} route searches, "
+            f"Starting Google Flights Scraper: {len(route_tasks)} route search(es), "
             f"{adults} adult(s), seat={seat}, currency={currency}, expandItineraries={runner.expand}"
         )
         await Actor.set_status_message(f"Searching flights for {len(route_tasks)} route dates...")

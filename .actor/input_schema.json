@@ -7,18 +7,21 @@
             "title": "Origin Airport Code (IATA)",
             "type": "string",
             "description": "3-letter IATA code of origin airport (e.g. 'JFK', 'IST', 'LHR', 'LAX').",
+            "editor": "textfield",
             "prefill": "JFK"
         },
         "toAirport": {
             "title": "Destination Airport Code (IATA)",
             "type": "string",
             "description": "3-letter IATA code of destination airport (e.g. 'LHR', 'CDG', 'HND', 'IST').",
+            "editor": "textfield",
             "prefill": "LHR"
         },
         "departureDate": {
             "title": "Departure Date",
             "type": "string",
             "description": "Departure date in YYYY-MM-DD format, or relative expression like 'today+14', 'today+30', 'tomorrow'.",
+            "editor": "textfield",
             "default": "today+14"
         },
         "isRoundTrip": {
@@ -74,6 +77,7 @@
             "title": "Currency",
             "type": "string",
             "description": "Currency code for airfare prices (e.g. USD, EUR, GBP, TRY).",
+            "editor": "textfield",
             "default": "USD"
         },
         "expandItineraries": {

@@ -1,5 +1,5 @@
 apify>=2.0.0
-fast-flights>=2.2
+fast-flights==3.1.0
 primp>=0.15.0
 selectolax>=1.0.0
 protobuf>=4.25.0
