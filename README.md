@@ -202,3 +202,11 @@ This Actor operates under **Pay-Per-Event (PPE)**:
 - **Per Route Search ($0.003):** Charged per flight route date search executed.
 - 1,000 route searches cost only $3.00, returning dozens of complete airline itineraries per search.
 - Platform compute usage is fully included in the event fee.
+
+---
+
+## Related Apify Intelligence & Scraping Tools
+
+- [Google Hotels Prices & OTA Rate Tracker API](https://apify.com/kamerozkan/google-hotels-prices) - Real-time hotel rates, room types, and OTA rate disparity scraper.
+- [Google Ads Transparency Center Scraper & Spy API](https://apify.com/kamerozkan/google-ads-transparency-scraper) - Track competitor ad copy, creatives, formats, and active dates.
+- [AI Brand Visibility & GEO Rank Tracker API](https://apify.com/kamerozkan/ai-brand-visibility-tracker) - Track brand mentions, Share of Voice (SOV), and citations across ChatGPT, Perplexity, Gemini, and Claude.
