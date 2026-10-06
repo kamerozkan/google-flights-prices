@@ -1,0 +1,95 @@
+{
+    "title": "Google Flights Scraper Input",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+        "fromAirport": {
+            "title": "Origin Airport Code (IATA)",
+            "type": "string",
+            "description": "3-letter IATA code of origin airport (e.g. 'JFK', 'IST', 'LHR', 'LAX').",
+            "prefill": "JFK"
+        },
+        "toAirport": {
+            "title": "Destination Airport Code (IATA)",
+            "type": "string",
+            "description": "3-letter IATA code of destination airport (e.g. 'LHR', 'CDG', 'HND', 'IST').",
+            "prefill": "LHR"
+        },
+        "departureDate": {
+            "title": "Departure Date",
+            "type": "string",
+            "description": "Departure date in YYYY-MM-DD format, or relative expression like 'today+14', 'today+30', 'tomorrow'.",
+            "default": "today+14"
+        },
+        "isRoundTrip": {
+            "title": "Round Trip",
+            "type": "boolean",
+            "description": "If enabled, searches for round-trip flights instead of one-way.",
+            "default": false
+        },
+        "returnDurationDays": {
+            "title": "Round Trip Duration (Days)",
+            "type": "integer",
+            "description": "Number of days between departure and return for round-trip searches.",
+            "default": 7,
+            "minimum": 1,
+            "maximum": 60
+        },
+        "numberOfDates": {
+            "title": "Multi-Date Calendar (Number of Dates)",
+            "type": "integer",
+            "description": "Check flight prices across consecutive departure dates to find the cheapest day to fly.",
+            "default": 1,
+            "minimum": 1,
+            "maximum": 60
+        },
+        "adults": {
+            "title": "Number of Adults",
+            "type": "integer",
+            "description": "Number of adult passengers (1 to 9).",
+            "default": 1,
+            "minimum": 1,
+            "maximum": 9
+        },
+        "seatClass": {
+            "title": "Cabin Class",
+            "type": "string",
+            "description": "Select cabin seat class.",
+            "editor": "select",
+            "default": "economy",
+            "enum": [
+                "economy",
+                "premium-economy",
+                "business",
+                "first"
+            ],
+            "enumTitles": [
+                "Economy",
+                "Premium Economy",
+                "Business Class",
+                "First Class"
+            ]
+        },
+        "currency": {
+            "title": "Currency",
+            "type": "string",
+            "description": "Currency code for airfare prices (e.g. USD, EUR, GBP, TRY).",
+            "default": "USD"
+        },
+        "expandItineraries": {
+            "title": "Expand Flight Itineraries",
+            "type": "boolean",
+            "description": "If true, emits every individual flight schedule as its own dataset row. If false, emits one summary row per route.",
+            "default": true
+        },
+        "proxyConfiguration": {
+            "title": "Proxy Configuration",
+            "type": "object",
+            "description": "Apify datacenter or residential proxy settings.",
+            "editor": "proxy",
+            "default": {
+                "useApifyProxy": true
+            }
+        }
+    }
+}

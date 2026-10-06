@@ -1,0 +1,17 @@
+{
+    "actorSpecification": 1,
+    "name": "google-flights-prices",
+    "title": "Google Flights Prices & Fare Tracker API",
+    "description": "Fast, browserless Google Flights scraper. Search one-way & round-trip airfares, compare airlines, track multi-date price calendars, and monitor price levels (low, typical, high) without headless browsers.",
+    "version": "1.0",
+    "buildTag": "latest",
+    "meta": {
+        "templateId": "python-start"
+    },
+    "input": "./input_schema.json",
+    "output": "./output_schema.json",
+    "storages": {
+        "dataset": "./dataset_schema.json"
+    },
+    "dockerfile": "../Dockerfile"
+}

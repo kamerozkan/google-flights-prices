@@ -1,0 +1,13 @@
+{
+    "actorOutputSchemaVersion": 1,
+    "title": "Google Flights Output",
+    "description": "Flight prices, airline itineraries, departure/arrival schedules, and price levels extracted from Google Flights.",
+    "properties": {
+        "results": {
+            "type": "string",
+            "title": "Flight Prices Dataset",
+            "description": "Default dataset containing collected flight offers and route pricing.",
+            "template": "{{links.apiDefaultDatasetUrl}}/items"
+        }
+    }
+}

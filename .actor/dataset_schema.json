@@ -1,0 +1,87 @@
+{
+    "actorSpecification": 1,
+    "views": {
+        "overview": {
+            "title": "Flights Overview",
+            "transformation": {
+                "fields": [
+                    "airline",
+                    "price",
+                    "from",
+                    "to",
+                    "departureDate",
+                    "returnDate",
+                    "tripType",
+                    "departure",
+                    "arrival",
+                    "duration",
+                    "stops",
+                    "isBest",
+                    "priceLevel",
+                    "searchUrl"
+                ]
+            },
+            "display": {
+                "component": "table",
+                "properties": {
+                    "airline": {
+                        "label": "Airline",
+                        "format": "text"
+                    },
+                    "price": {
+                        "label": "Price",
+                        "format": "text"
+                    },
+                    "from": {
+                        "label": "From",
+                        "format": "text"
+                    },
+                    "to": {
+                        "label": "To",
+                        "format": "text"
+                    },
+                    "departureDate": {
+                        "label": "Departure Date",
+                        "format": "text"
+                    },
+                    "returnDate": {
+                        "label": "Return Date",
+                        "format": "text"
+                    },
+                    "tripType": {
+                        "label": "Trip Type",
+                        "format": "text"
+                    },
+                    "departure": {
+                        "label": "Departure Time",
+                        "format": "text"
+                    },
+                    "arrival": {
+                        "label": "Arrival Time",
+                        "format": "text"
+                    },
+                    "duration": {
+                        "label": "Duration",
+                        "format": "text"
+                    },
+                    "stops": {
+                        "label": "Stops",
+                        "format": "number"
+                    },
+                    "isBest": {
+                        "label": "Best Flight?",
+                        "format": "boolean"
+                    },
+                    "priceLevel": {
+                        "label": "Price Level",
+                        "format": "text"
+                    },
+                    "searchUrl": {
+                        "label": "Google Flights Link",
+                        "format": "link"
+                    }
+                }
+            }
+        }
+    }
+}
